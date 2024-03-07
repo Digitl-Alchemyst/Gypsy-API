@@ -31,24 +31,25 @@ function updateApiKey(req: VercelRequest, res: VercelResponse) {
 }
 
 async function sendPromptToOpenAI(req: VercelRequest, res: VercelResponse) {
-    console.log('Received Message from Frontend:', req.body);
+  console.log('Received Message from Frontend:', req.body);
 
-    const { messsages, currentModel } = req.body;
+  const { messsages, currentModel } = req.body;
 
-    try {
-        const completion = await openai.chat.completions.create({
-            messages: messsages,
-            model: currentModel,
-            temperature: 0.7,
-            maxTokens: 25,
-        });
-        console.log(completion.choices[0]);
-        res.json({ messageReply: completion.choices[0].text });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: messsages,
+      model: currentModel,
+      temperature: 0.7,
+      max_tokens: 25,
+    });
+    console.log(completion.choices[0]);
+    res.json({ messageReply: completion.choices[0] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 }
+
 
 async function fetchModels(req: VercelRequest, res: VercelResponse) {
     try {
